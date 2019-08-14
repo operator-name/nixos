@@ -6,12 +6,14 @@
 
 {
   imports =
-    [ # LUKS configuration
-      ./luks.nix
-      # Include the results of the hardware scan.
+    [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # LUKS configuration
+      ./luks.nix
       # Local and language
       ./locale.nix
+      # Users
+      ./users.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -65,12 +67,6 @@
   # Enable the KDE Desktop Environment.
   # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.jane = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  # };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

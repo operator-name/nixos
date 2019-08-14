@@ -1,5 +1,24 @@
 #!/usr/bin/env bash
 
+function cleanup() {
+  set +e
+  umount /mnt/boot
+  umount /mnt
+  swapoff /dev/nixos-vg/swap
+  vgchange -a n nixos-vg
+  cryptsetup luksClose nixos-enc
+  set -e
+}
+
+function copy() {
+  cp ./configuration.nix /mnt/etc/nixos/
+  cp ./luks.nix /mnt/etc/nixos/
+  cp ./locale.nix /mnt/etc/nixos/
+  cp ./users.nix /mnt/etc/nixos/
+}
+
+
+
 set -e # stop on error, TODO: change to errortrap and cleanup 
 set -x # echo on, change to -v or function if this gets more complicated
 
@@ -42,15 +61,6 @@ nixos-generate-config --root /mnt
 UUID="$(blkid -s UUID -o value "$LVM")"
 sed "s/UUID/$UUID/g" luks_template.nix > luks.nix
 
-cp ./configuration.nix /mnt/etc/nixos/
-cp ./luks.nix /mnt/etc/nixos/
+copy
 
-function cleanup() {
-  set +e
-  umount /mnt/boot
-  umount /mnt
-  swapoff /dev/nixos-vg/swap
-  vgchange -a n nixos-vg
-  cryptsetup luksClose nixos-enc
-  set -e
-}
+nixos-install --no-root-passwd
