@@ -17,8 +17,6 @@ function copy() {
   cp ./users.nix /mnt/etc/nixos/
 }
 
-
-
 set -e # stop on error, TODO: change to errortrap and cleanup 
 set -x # echo on, change to -v or function if this gets more complicated
 
