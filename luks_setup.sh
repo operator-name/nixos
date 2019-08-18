@@ -39,16 +39,16 @@ BOOT="${DISK}p1"
 LVM="${DISK}p2"
 
 
-cryptsetup luksFormat "$LVM" # --uuid (The UUID must be provided in the standard UUID format, e.g. 12345678-1234-1234-1234-123456789abc)
+cryptsetup luksFormat "$LVM" # --uuid= (UUID in the standard UUID format, e.g. 12345678-1234-1234-1234-123456789abc)
 cryptsetup luksOpen "$LVM" nixos-enc
 pvcreate /dev/mapper/nixos-enc
 vgcreate nixos-vg /dev/mapper/nixos-enc
 lvcreate -L 16G -n swap nixos-vg
 lvcreate -l 100%FREE -n root nixos-vg
 
-mkfs.vfat -n boot "$BOOT"
-mkfs.ext4 -L nixos /dev/nixos-vg/root
-mkswap -L swap /dev/nixos-vg/swap
+mkfs.vfat -n boot "$BOOT" # -i b007ab1e (VOLUME-ID is a 32-bit hexadecimal number, e.g. 2e24ec82))
+mkfs.ext4 -L nixos /dev/nixos-vg/root # -U (UUID in the standard UUID format, e.g. 12345678-1234-1234-1234-123456789abc)
+mkswap -L swap /dev/nixos-vg/swap # -U (UUID in the standard UUID format, e.g. 12345678-1234-1234-1234-123456789abc)
 swapon /dev/nixos-vg/swap
 
 mount /dev/nixos-vg/root /mnt
