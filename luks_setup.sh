@@ -31,7 +31,7 @@ sgdisk --clear "$DISK"
 sgdisk --new 1:0:1G "$DISK"
 sgdisk --typecode 1:ef00 "$DISK"
 sgdisk --new 2:0:0 "$DISK"
-sgdisk --typecode 2:8e00 "$DISK"
+sgdisk --typecode 2:8309 "$DISK" #8309 for Linux LUKS CA7D7CCB-63ED-4C53-861C-1742536059CC
 #sgdisk --change-name=partnum:name
 
 sgdisk --print "$DISK"
