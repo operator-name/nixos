@@ -24,12 +24,15 @@ lsblk
 
 read -p "DISK: " -e DISK
 
+# https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pdf
+# Chapter 5
 sgdisk --zap "$DISK"
 sgdisk --clear "$DISK"
 sgdisk --new 1:0:1G "$DISK"
 sgdisk --typecode 1:ef00 "$DISK"
 sgdisk --new 2:0:0 "$DISK"
 sgdisk --typecode 2:8e00 "$DISK"
+#sgdisk --change-name=partnum:name
 
 sgdisk --print "$DISK"
 lsblk "$DISK"
