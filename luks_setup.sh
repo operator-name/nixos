@@ -24,10 +24,8 @@ lsblk
 
 read -p "DISK: " -e DISK
 
-# https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pdf
-# Chapter 5
-sgdisk --zap "$DISK"
-sgdisk --clear "$DISK"
+# I think this can be one command
+sgdisk --zap-all --clear "$DISK" # --clear by itself may fail on a damanged disk
 sgdisk --new 1:0:1G "$DISK"
 sgdisk --typecode 1:ef00 "$DISK"
 sgdisk --new 2:0:0 "$DISK"
@@ -39,11 +37,19 @@ lsblk "$DISK"
 
 #nvme only
 BOOT="${DISK}p1"
-LVM="${DISK}p2"
+LUKS="${DISK}p2"
 
 
-cryptsetup luksFormat "$LVM" # --uuid= (UUID in the standard UUID format, e.g. 12345678-1234-1234-1234-123456789abc)
-cryptsetup luksOpen "$LVM" nixos-enc
+# as per uuid spec (https://en.wikipedia.org/wiki/Universally_unique_identifier)
+# grep -vE "g|-|(, [1-9]$)" hexwords.txt
+# grep -v "-" hexwords.txt | grep -E "^.{8}," | less
+# grep -v "-" hexwords.txt | grep -E "^.{4}," | less
+# grep -v "-" hexwords.txt | grep -E "^4.{3}," | less
+# grep -v "-" hexwords.txt | grep -E "^[8-b].{3}," | less
+# grep -v "-" hexwords.txt | grep -E "^.{12}," | less
+
+cryptsetup luksFormat "$LUKS" # --uuid= (UUID in the standard UUID format, e.g. 12345678-1234-1234-1234-123456789abc)
+cryptsetup luksOpen "$LUKS" nixos-enc
 pvcreate /dev/mapper/nixos-enc
 vgcreate nixos-vg /dev/mapper/nixos-enc
 lvcreate -L 16G -n swap nixos-vg
@@ -59,7 +65,7 @@ mkdir -p /mnt/boot
 mount "$BOOT" /mnt/boot
 nixos-generate-config --root /mnt
 
-UUID="$(blkid -s UUID -o value "$LVM")"
+UUID="$(blkid -s UUID -o value "$LUKS")"
 sed "s/UUID/$UUID/g" luks_template.nix > luks.nix
 
 copy
