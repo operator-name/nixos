@@ -31,6 +31,11 @@ sgdisk --typecode 1:ef00 "$DISK"
 sgdisk --new 2:0:0 "$DISK"
 sgdisk --typecode 2:8309 "$DISK" #8309 for Linux LUKS CA7D7CCB-63ED-4C53-861C-1742536059CC
 #sgdisk --change-name=partnum:name
+# --disk-guid=guid
+# --partition-guid=partnum:guid
+
+# b007ab1e-boot-4321-boot-b00757rapped
+# pa7ch1ng-f0n7-4eff-b10b-dena7ur1z1ng
 
 sgdisk --print "$DISK"
 lsblk "$DISK"
@@ -39,7 +44,6 @@ lsblk "$DISK"
 BOOT="${DISK}p1"
 LUKS="${DISK}p2"
 
-
 # as per uuid spec (https://en.wikipedia.org/wiki/Universally_unique_identifier)
 # grep -vE "g|-|(, [1-9]$)" hexwords.txt
 # grep -v "-" hexwords.txt | grep -E "^.{8}," | less
@@ -47,6 +51,10 @@ LUKS="${DISK}p2"
 # grep -v "-" hexwords.txt | grep -E "^4.{3}," | less
 # grep -v "-" hexwords.txt | grep -E "^[8-b].{3}," | less
 # grep -v "-" hexwords.txt | grep -E "^.{12}," | less
+
+# 0b57ac1e-ba55-4807-be11-c011ec7ab1e5
+# 0ff1c1a1-be57-4807-a150-d155a715f1ed
+# c0deba5e-da7a-4807-a51c-d1917a11571c
 
 cryptsetup luksFormat "$LUKS" # --uuid= (UUID in the standard UUID format, e.g. 12345678-1234-1234-1234-123456789abc)
 cryptsetup luksOpen "$LUKS" nixos-enc
