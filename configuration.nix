@@ -10,6 +10,8 @@
       ./hardware-configuration.nix
       # LUKS configuration and mounting points
       ./filesystems.nix
+      # Nix configuration
+      ./nix.nix
       # Local and language
       ./locale.nix
       # Audio and sound
@@ -32,7 +34,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim git networkmanagerapplet firefox
+    wget vim git networkmanagerapplet firefox bitwarden-cli vscodium
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -63,9 +65,14 @@
   services.xserver.libinput.enable = true;
   services.xserver.libinput.naturalScrolling = true;
 
-  # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  # # Enable the KDE Desktop Environment.
+  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
+
+  # Enable Gnome
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = false;
+  services.xserver.desktopManager.gnome3.enable = true;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
