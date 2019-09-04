@@ -61,6 +61,7 @@
 
   # Enable touchpad support.
   services.xserver.libinput.enable = true;
+  services.xserver.libinput.naturalScrolling = true;
 
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
