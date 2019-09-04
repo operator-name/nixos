@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 function main() {
-  set -e # stop on error, TODO: change to errortrap and cleanup 
-  set -x # echo on, change to -v or function if this gets more complicated
+  # stop on error, TODO: change to errortrap and cleanup functions
+  set -e
+  # Print commands as they are executed, change to -v or manual if this gets more complicated (loops)
+  set -x 
 
   # if [ -z "$1" ] then
   #   sgdisk --print "$DISK"
@@ -36,7 +38,7 @@ function cleanup() {
   umount /mnt/boot
   umount /mnt
   swapoff /dev/nixos-vg/swap
-  vgchange -a n nixos-vg
+  vgchange --activate n nixos-vg
   cryptsetup luksClose nixos-luks
   set -e
 }
@@ -54,7 +56,7 @@ function partition() {
 
 function mkfs-boot() {
   local BOOT="$1"
-  mkfs.vfat -n boot -i b007ab1e "$BOOT"
+  mkfs.fat -n boot -i b007ab1e "$BOOT"
 }
 
 function mkfs-luks-lvm() {
@@ -65,11 +67,11 @@ function mkfs-luks-lvm() {
   
   pvcreate --norestorefile --uuid places-that-home-swap-both-rest-opened /dev/mapper/nixos-luks
   vgcreate nixos-vg /dev/mapper/nixos-luks
-  lvcreate -L 32G -n swap nixos-vg
-  lvcreate -l 100%FREE -n root nixos-vg
+  lvcreate --size 32G --name swap nixos-vg
+  lvcreate --extents 100%FREE --name root nixos-vg
 
   mkfs.ext4 -L nixos -U 0ff1c1a1-be57-4807-a150-d155a715f1ed /dev/nixos-vg/root
-  mkswap -L swap -U c0deba5e-da7a-4807-a51c-d1917a11571c /dev/nixos-vg/swap
+  mkswap --label swap --uuid c0deba5e-da7a-4807-a51c-d1917a11571c /dev/nixos-vg/swap
 }
 
 function mount-install() {
@@ -78,11 +80,11 @@ function mount-install() {
 
   swapon /dev/nixos-vg/swap
   mount /dev/nixos-vg/root /mnt
-  mkdir -p /mnt/boot
+  mkdir --parents /mnt/boot
   mount "$BOOT" /mnt/boot
   
   git clone https://github.com/operator-name/nixos.git /mnt/etc/nixos
-  chown -R 7919 /mnt/etc/nixos
+  chown --recursive 7919 /mnt/etc/nixos
 
   nixos-generate-config --no-filesystems --root /mnt
   
