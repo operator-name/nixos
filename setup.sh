@@ -63,7 +63,7 @@ function mkfs-luks-lvm() {
   cryptsetup luksFormat --uuid=0b57ac1e-ba55-4807-be11-c011ec7ab1e5 "$LUKS"
   cryptsetup luksOpen "$LUKS" nixos-luks
   
-  pvcreate /dev/mapper/nixos-luks
+  pvcreate --norestorefile --uuid places-that-home-swap-both-rest-opened /dev/mapper/nixos-luks
   vgcreate nixos-vg /dev/mapper/nixos-luks
   lvcreate -L 32G -n swap nixos-vg
   lvcreate -l 100%FREE -n root nixos-vg
@@ -82,7 +82,7 @@ function mount-install() {
   mount "$BOOT" /mnt/boot
   
   git clone https://github.com/operator-name/nixos.git /mnt/etc/nixos
-  chown -R 17645 /mnt/etc/nixos
+  chown -R 7919 /mnt/etc/nixos
 
   nixos-generate-config --no-filesystems --root /mnt
   
