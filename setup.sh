@@ -14,12 +14,21 @@ function main() {
   LUKS="${DISK}p2"
 
   partition "$DISK"
+
+  sgdisk --print "$DISK"
+  sgdisk --info=1 "$DISK"
+  sgdisk --info=2 "$DISK"
+
   mkfs-boot "$BOOT"
   mkfs-luks-lvm "$LUKS"
 
   UUID="$(blkid -s UUID -o value "$LUKS")"
 
-  mount-install "$UUID"
+  lsblk --output +LABEL,UUID,PTUUID,PARTLABEL,PARTUUID "$DISK"
+
+  mount-install "$BOOT"
+
+  lsblk --output +LABEL,UUID,PTUUID,PARTLABEL,PARTUUID "$DISK"
 }
 
 function cleanup() {
@@ -36,11 +45,11 @@ function partition() {
   local DISK="$1"
 
   # Create new GPT parition, --clear by itself may fail on a damanged disk
-  sgdisk --zap-all --clear --disk-guid=7ac71ca1-ac1d-4f0r-fa7e-d155a7151fed "$DISK" 
+  sgdisk --zap-all --clear --disk-guid=7ac71ca1-ac1d-4321-fa7e-d155a7151fed "$DISK" 
   # Boot parition
-  sgdisk --new 1:0:1G --typecode 1:ef00 --change-name=1:"boot" --partition-guid=1:b007ab1e-boot-4321-boot-b00757rapped "$DISK"
-  # LUKS parition as code 8309 (CA7D7CCB-63ED-4C53-861C-1742536059CC)
-  sgdisk --new 2:0:0 --typecode 2:8309 --change-name=2:"luks" --partition-guid=2:pa7ch1ng-f0n7-4eff-b10b-dena7ur1z1ng "$DISK"
+  sgdisk --new 1:0:1G --typecode=1:ef00 --change-name=1:"boot" --partition-guid=1:b007ab1e-b007-4321-b007-b007ab1eb105 "$DISK"
+  # LUKS parition as code 8309
+  sgdisk --new 2:0:0  --typecode=2:8309 --change-name=2:"luks" --partition-guid=2:5ca1ab1e-c01a-4321-ba11-c011ec71b1e5 "$DISK"
 }
 
 function mkfs-boot() {
@@ -64,23 +73,19 @@ function mkfs-luks-lvm() {
 }
 
 function mount-install() {
-  local UUID="$1"
+  local BOOT="$1"
   # assumes luksOpen and vg called nixos-vg
 
   swapon /dev/nixos-vg/swap
   mount /dev/nixos-vg/root /mnt
   mkdir -p /mnt/boot
   mount "$BOOT" /mnt/boot
-  nixos-generate-config --root /mnt
   
-  sed "s/UUID/$UUID/g" luks_template.nix > luks.nix
+  git clone https://github.com/operator-name/nixos.git /mnt/etc/nixos
+  chown -R 17645 /mnt/etc/nixos
 
-  cp ./audio.nix /mnt/etc/nixos/
-  cp -rf ./configuration.nix /mnt/etc/nixos/
-  cp ./locale.nix /mnt/etc/nixos/
-  cp ./luks.nix /mnt/etc/nixos/
-  cp ./users.nix /mnt/etc/nixos/
-
+  nixos-generate-config --no-filesystems --root /mnt
+  
   nixos-install --no-root-passwd
 }
 

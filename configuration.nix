@@ -8,8 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # LUKS configuration
-      ./luks.nix
+      # LUKS configuration and mounting points
+      ./filesystems.nix
       # Local and language
       ./locale.nix
       # Audio and sound
