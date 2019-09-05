@@ -17,16 +17,27 @@ in {
     
     home-manager.users.qqii = { pkgs, ... }: {
       home.packages = with pkgs; [ 
-        wget bitwarden-cli vscodium file
+        wget 
+        bitwarden-cli 
+        vscodium 
+        file
+        xclip
       ];
       
       programs = {
         bash = {
           enable = true;
           enableAutojump = true;
+          historySize = -1;
+          historyFileSize = -1;
           historyControl = [ "ignoredups" ];
+          # TODO: nixpkg for shell scripts to make sure dependaicies are availible
+          initExtra = ''
+
+          '';
           shellAliases = {
-            
+            # unlock bitwarden and set session key
+            bwunlock = "$(bw unlock | grep export | cut -c 3-) && bw sync";
           };
         };
         bat = {
