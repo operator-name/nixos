@@ -34,11 +34,19 @@ in {
           historyControl = [ "ignoredups" ];
           # TODO: nixpkg for shell scripts to make sure dependaicies are availible
           initExtra = ''
-
+            # get bitwarden object and copy it to clipbard
+            # a common use is bwclip password <website>
+            function bwclip() {
+              # bw get ouputs the password with a newline 
+              # as an alternative, tr -d [:space:] can be used if no passphrases contain spaces
+              bw get $1 $2 | head -c -1 | xclip -selection clipboard
+            }
           '';
           shellAliases = {
             # unlock bitwarden and set session key
             bwunlock = "$(bw unlock | grep export | cut -c 3-) && bw sync";
+            # copy to clipboard, use -o to paste from clipboard
+            xclipboard = "xclip -selection clipboard";
           };
         };
         bat = {
@@ -66,6 +74,9 @@ in {
           extraConfig = {
             core = {
               editor = "vim";
+            };
+            commit = {
+              verbose = "true";
             };
           };
           aliases = {
