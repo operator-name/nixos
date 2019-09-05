@@ -82,6 +82,8 @@ in {
           aliases = {
             graph = "log --graph --decorate --abbrev-commit";
             tree = "log --graph --decorate --pretty=oneline --abbrev-commit";
+            patch = "add --patch";
+            interactive = "add --interactive";
           };
         };
       };
