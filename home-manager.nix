@@ -22,6 +22,7 @@ in {
         vscodium 
         file
         xclip
+        tig
       ];
       
       programs = {
@@ -66,6 +67,10 @@ in {
             core = {
               editor = "vim";
             };
+          };
+          aliases = {
+            graph = "log --graph --decorate --abbrev-commit";
+            tree = "log --graph --decorate --pretty=oneline --abbrev-commit";
           };
         };
       };
