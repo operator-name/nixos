@@ -18,6 +18,8 @@
       ./audio.nix
       # Users
       ./users.nix
+      # Home manager
+      ./home-manager.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -34,7 +36,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim git networkmanagerapplet firefox bitwarden-cli vscodium file
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
