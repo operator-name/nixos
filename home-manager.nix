@@ -11,10 +11,12 @@ in {
       "${home-manager}/nixos"
     ];
 
+    # can be replaced with a overriding export of $SSH_ASKPASS=""
+    programs.ssh.askPassword = "";
+    # can be replaced with an export of $EDTIOR="vim"
     programs.vim.defaultEditor = true;
 
     home-manager.useUserPackages = true;
-    
     home-manager.users.qqii = { pkgs, ... }: {
       home.packages = with pkgs; [ 
         wget 
