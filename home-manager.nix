@@ -25,6 +25,7 @@ in {
         file
         xclip
         tig
+        texlive.combined.scheme-full
       ];
       
       programs = {
