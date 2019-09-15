@@ -16,8 +16,11 @@ in {
     # can be replaced with an export of $EDTIOR="vim"
     programs.vim.defaultEditor = true;
 
+    
+
     home-manager.useUserPackages = true;
     home-manager.users.qqii = { pkgs, ... }: {
+
       home.packages = with pkgs; [ 
         wget 
         bitwarden-cli 
@@ -26,7 +29,12 @@ in {
         xclip
         tig
         texlive.combined.scheme-full
-      ];
+        ripgrep
+        exa
+        fd
+      ] ++ (with (import <nixos> { config.allowUnfree = true; }); [
+        minecraft
+      ]);
       
       programs = {
         bash = {
@@ -34,7 +42,7 @@ in {
           enableAutojump = true;
           historySize = -1;
           historyFileSize = -1;
-          historyControl = [ "ignoredups" ];
+          historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
           # TODO: nixpkg for shell scripts to make sure dependaicies are availible
           initExtra = ''
             # get bitwarden object and copy it to clipbard
