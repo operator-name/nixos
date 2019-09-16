@@ -16,10 +16,8 @@
       ./locale.nix
       # Audio and sound
       ./audio.nix
-      # Users
-      ./users.nix
-      # Home manager
-      ./home-manager.nix
+      # The qqii user and other user configuration
+      ./qqii.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
