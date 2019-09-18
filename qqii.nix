@@ -13,6 +13,7 @@ in
       "${home-manager}/nixos"
     ];
 
+  users.mutableUsers = false; # just for now, rebuilding seems to mess with user groups without this
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.qqii = {
     # Randomly chosen, used for setup script to chown /etc/nixos
@@ -35,6 +36,19 @@ in
   home-manager.useUserPackages = true;
   home-manager.users.qqii = { pkgs, ... }: {
 
+    # xsession = {
+    #   enable = true;
+    #   windowManager.xmonad = {
+    #     enable = true;
+    #     enableContribAndExtras = true;
+    #     extraPackages = haskellPackages: [
+    #       haskellPackages.xmonad-contrib
+    #       haskellPackages.xmonad-extras
+    #       haskellPackages.xmonad
+    #     ];
+    #   };
+    # };
+
     home.packages = with pkgs; [
       nix-index
       wget
@@ -47,6 +61,7 @@ in
       ripgrep
       exa
       fd
+      jq
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
         minecraft
@@ -54,6 +69,10 @@ in
     );
 
     programs = {
+      chromium = {
+        enable = true;
+        extensions = [];
+      };
       bash = {
         enable = true;
         enableAutojump = true;

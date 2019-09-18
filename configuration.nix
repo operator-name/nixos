@@ -55,7 +55,8 @@
   # networking.firewall.enable = false;
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = true;
+  services.printing.drivers = with pkgs; [ brlaser ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -73,7 +74,7 @@
   # Enable Gnome
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = false;
-  services.xserver.desktopManager.gnome3.enable = true;
+  services.xserver.desktopManager.gnome3.enable = true; 
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
