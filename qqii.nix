@@ -33,6 +33,9 @@ in
   # can be replaced with an export of $EDTIOR="vim"
   programs.vim.defaultEditor = true;
 
+  nixpkgs.config.allowUnfree = true; # for teamviewer, see if there's a better way
+  services.teamviewer.enable = true;
+
   home-manager.useUserPackages = true;
   home-manager.users.qqii = { pkgs, ... }: {
 
@@ -65,6 +68,8 @@ in
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
         minecraft
+        teamviewer
+        spotify
       ]
     );
 
@@ -87,10 +92,12 @@ in
             # bw get ouputs the password with a newline 
             # as an alternative, tr -d [:space:] can be used if no passphrases contain spaces
             bw get $1 $2 | head -c -1 | xclip -selection clipboard
+            # TODO: add feedback for if the vault is locked
           }
         '';
         shellAliases = {
           # unlock bitwarden and set session key
+          # bash makes it so that trying to get the return variable of `bw unlock` non trivial so bw sync is ran to check the password is correct thus bwunlock cannot provide password feedback offline
           bwunlock = "$(bw unlock | grep export | cut -c 3-) && bw sync";
           # copy to clipboard, use -o to paste from clipboard
           xclipboard = "xclip -selection clipboard";
