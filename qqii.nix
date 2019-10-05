@@ -52,6 +52,7 @@ in
     #   };
     # };
 
+    #TODO: add comments describing each package
     home.packages = with pkgs; [
       nix-index
       wget
@@ -100,7 +101,7 @@ in
           # bash makes it so that trying to get the return variable of `bw unlock` non trivial so bw sync is ran to check the password is correct thus bwunlock cannot provide password feedback offline
           bwunlock = "$(bw unlock | grep export | cut -c 3-) && bw sync";
           # copy to clipboard, use -o to paste from clipboard
-          xclipboard = "xclip -selection clipboard";
+          xclipboard = "${pkgs.xclip}/bin/xclip -selection clipboard";
         };
       };
       bat = {

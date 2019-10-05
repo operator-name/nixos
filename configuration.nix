@@ -19,6 +19,8 @@
       ./audio.nix
       # The qqii user and other user configuration
       ./qqii.nix
+      # IGVT-g configuration
+      ./IGVT-g.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
