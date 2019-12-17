@@ -24,6 +24,7 @@ in
       "wheel" # sudo
       "networkmanager" # wifi
       "video" # brightness control
+      "audio"
     ];
     initialHashedPassword = "$6$password$u/Cn/tSGIYFtqv4AwZ9tjP1gMxjlvLHt3KO8zbK6ZnMn8anv6tSCo.XidktlU0MdRjWe3./lahF9FTMcnja9q.";
   };
@@ -40,16 +41,16 @@ in
   home-manager.users.qqii = { pkgs, ... }: {
 
     # xsession = {
-    #   enable = true;
-    #   windowManager.xmonad = {
-    #     enable = true;
-    #     enableContribAndExtras = true;
-    #     extraPackages = haskellPackages: [
-    #       haskellPackages.xmonad-contrib
-    #       haskellPackages.xmonad-extras
-    #       haskellPackages.xmonad
-    #     ];
-    #   };
+      # enable = true;
+      # windowManager.xmonad = {
+      #   enable = true;
+      #   enableContribAndExtras = true;
+      #   extraPackages = haskellPackages: [
+      #     haskellPackages.xmonad-contrib
+      #     haskellPackages.xmonad-extras
+      #     haskellPackages.xmonad
+      #   ];
+      # };
     # };
 
     #TODO: add comments describing each package
@@ -71,6 +72,7 @@ in
         minecraft
         teamviewer
         spotify
+        google-chrome
       ]
     );
 

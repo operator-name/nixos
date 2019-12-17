@@ -20,7 +20,7 @@
       # The qqii user and other user configuration
       ./qqii.nix
       # IGVT-g configuration
-      ./IGVT-g.nix
+      ./iGVT-g.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -38,7 +38,9 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [];
 
+  # TODO: figure out how this works and some numbers for it
   hardware.trackpoint.enable = true;
+  hardware.trackpoint.sensitivity = 200;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -74,9 +76,8 @@
   # services.xserver.desktopManager.plasma5.enable = true;
 
   # Enable Gnome
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = false;
-  services.xserver.desktopManager.gnome3.enable = true; 
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.pantheon.enable = true; 
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
