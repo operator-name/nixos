@@ -25,7 +25,8 @@ in
       "networkmanager" # wifi
       "video" # brightness control
       "audio"
-      "adbusers" # adb
+      "adbusers"
+      "docker"
     ];
     initialHashedPassword = "$6$password$u/Cn/tSGIYFtqv4AwZ9tjP1gMxjlvLHt3KO8zbK6ZnMn8anv6tSCo.XidktlU0MdRjWe3./lahF9FTMcnja9q.";
   };
@@ -70,6 +71,7 @@ in
       jq
       jetbrains.webstorm
       tor-browser-bundle-bin
+      # wasabiwallet
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
         minecraft
@@ -80,6 +82,7 @@ in
     );
 
     programs = {
+      gpg.enable = true;
       chromium = {
         enable = true;
         extensions = [];
@@ -152,7 +155,9 @@ in
         # imageDirectory = "%h/Pictures/backgrounds"; 
         # interval = null; # null for once per login, otherwise a systemd time
       };
-
+      gpg-agent = {
+        enable = true;
+      };
     };
   };
 }
