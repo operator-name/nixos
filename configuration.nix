@@ -79,6 +79,10 @@
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.desktopManager.pantheon.enable = true; 
 
+  # udev for android and adb
+  programs.adb.enable = true;
+  services.udev.packages = [ pkgs.android-udev-rules ];
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
