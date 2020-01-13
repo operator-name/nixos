@@ -3,7 +3,7 @@
 let
   home-manager = builtins.fetchGit {
     url = "https://github.com/rycee/home-manager.git";
-    ref = "release-19.03";
+    # ref = "release-19.03";
   };
 in
 {
@@ -67,6 +67,8 @@ in
       exa
       fd
       jq
+      jetbrains.webstorm
+      tor-browser-bundle-bin
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
         minecraft

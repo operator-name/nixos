@@ -2,8 +2,8 @@
 
 {
   # Select internationalisation properties.
+  console.keyMap = "uk";
   i18n = {
-    consoleKeyMap = "uk";
     defaultLocale = "en_GB.UTF-8";
   };
 
