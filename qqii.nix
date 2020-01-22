@@ -71,6 +71,7 @@ in
       jq
       jetbrains.webstorm
       tor-browser-bundle-bin
+      kleopatra
       # wasabiwallet
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
