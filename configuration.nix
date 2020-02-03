@@ -67,6 +67,8 @@
   services.xserver.layout = "gb";
   services.xserver.xkbOptions = "";
 
+  services.monero.enable = true;
+
   # Enable touchpad support.
   services.xserver.libinput.enable = true;
   services.xserver.libinput.naturalScrolling = true;
@@ -82,6 +84,12 @@
   # udev for android and adb
   programs.adb.enable = true;
   services.udev.packages = [ pkgs.android-udev-rules ];
+
+  # update firmware
+  services.fwupd.enable = true;
+
+  # T480 throttling issue
+  services.throttled.enable = true;
 
   # docker
   virtualisation.docker.enable = true;

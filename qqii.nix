@@ -28,7 +28,7 @@ in
       "adbusers"
       "docker"
     ];
-    initialHashedPassword = "$6$password$u/Cn/tSGIYFtqv4AwZ9tjP1gMxjlvLHt3KO8zbK6ZnMn8anv6tSCo.XidktlU0MdRjWe3./lahF9FTMcnja9q.";
+    initialHashedPassword = "$6$password$4XlRDLri/hbFx14B1YGPsc.0c8P2NVd7UhJ/YF7i2tPt./oEsdVcdGrjU7Pys93/FKEMt6p948FMO2BpuLd0J.";
   };
 
   # can be replaced with a overriding export of $SSH_ASKPASS=""
@@ -70,8 +70,12 @@ in
       fd
       jq
       jetbrains.webstorm
+      
       tor-browser-bundle-bin
       kleopatra
+      monero-gui
+      
+      ranger
       # wasabiwallet
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
@@ -83,6 +87,7 @@ in
     );
 
     programs = {
+      kakoune.enable = true;
       gpg.enable = true;
       chromium = {
         enable = true;
@@ -111,6 +116,10 @@ in
           bwunlock = "$(bw unlock | grep export | cut -c 3-) && bw sync";
           # copy to clipboard, use -o to paste from clipboard
           xclipboard = "${pkgs.xclip}/bin/xclip -selection clipboard";
+          # ls stuff
+          ls = "exa";
+          la = "exa --all";
+          ll = "exa --long";
         };
       };
       bat = {
