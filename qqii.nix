@@ -104,9 +104,7 @@ in
           # get bitwarden object and copy it to clipbard
           # a common use is bwclip password <website>
           function bwclip() {
-            # bw get ouputs the password with a newline 
-            # as an alternative, tr -d [:space:] can be used if no passphrases contain spaces
-            bw get $1 $2 | head -c -1 | xclip -selection clipboard
+            bw get $1 $2 | xclip -selection clipboard
             # TODO: add feedback for if the vault is locked
           }
         '';
