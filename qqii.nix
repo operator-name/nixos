@@ -36,9 +36,6 @@ in
   # can be replaced with an export of $EDTIOR="vim"
   programs.vim.defaultEditor = true;
 
-  nixpkgs.config.allowUnfree = true; # for teamviewer, see if there's a better way
-  services.teamviewer.enable = true;
-
   home-manager.useUserPackages = true;
   home-manager.users.qqii = { pkgs, ... }: {
 
@@ -73,14 +70,13 @@ in
       
       tor-browser-bundle-bin
       kleopatra
-      monero-gui
+      # monero-gui
       
       ranger
       # wasabiwallet
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
         minecraft
-        teamviewer
         spotify
         google-chrome
       ]
@@ -106,6 +102,18 @@ in
           function bwclip() {
             bw get $1 $2 | xclip -selection clipboard
             # TODO: add feedback for if the vault is locked
+          }
+
+          # super resolution with the same scaling for screenshots and for crisp magnifier
+          # best when given a multiple of 2
+          function superresolution() {
+            # increase resolution
+            xrandr --output eDP-1 --scale "$1x$1"
+            # increase window scaling (integer)
+            gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <$1>}]"
+            gsettings set org.gnome.desktop.interface scaling-factor "$1"
+            # increase mouse scaling
+            gsettings set org.gnome.desktop.interface cursor-size "$((24*$1*$1))"
           }
         '';
         shellAliases = {
