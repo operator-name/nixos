@@ -66,6 +66,8 @@ in
       exa
       fd
       jq
+      jc
+      jp
       jetbrains.webstorm
       
       tor-browser-bundle-bin
@@ -91,7 +93,8 @@ in
       };
       bash = {
         enable = true;
-        enableAutojump = true;
+        # jc 
+        enableAutojump = false;
         historySize = -1;
         historyFileSize = -1;
         historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
