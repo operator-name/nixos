@@ -73,13 +73,9 @@
   services.xserver.libinput.enable = true;
   services.xserver.libinput.naturalScrolling = true;
 
-  # # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
-
-  # Enable Gnome
+  # Enable Pantheon
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.pantheon.enable = true; 
+  services.xserver.desktopManager.pantheon.enable = true;
 
   # udev for android and adb
   programs.adb.enable = true;

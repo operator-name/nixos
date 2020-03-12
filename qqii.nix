@@ -5,6 +5,7 @@ let
     url = "https://github.com/rycee/home-manager.git";
     # ref = "release-19.03";
   };
+  stable_19_09 = import (fetchTarball https://nixos.org/channels/nixos-19.09/nixexprs.tar.xz) {};
 in
 {
   imports =
@@ -73,6 +74,8 @@ in
       tor-browser-bundle-bin
       kleopatra
       # monero-gui
+
+      brave
       
       ranger
       # wasabiwallet
