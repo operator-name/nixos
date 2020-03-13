@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 let
   home-manager = builtins.fetchGit {
     url = "https://github.com/rycee/home-manager.git";
@@ -41,16 +40,16 @@ in
   home-manager.users.qqii = { pkgs, ... }: {
 
     # xsession = {
-      # enable = true;
-      # windowManager.xmonad = {
-      #   enable = true;
-      #   enableContribAndExtras = true;
-      #   extraPackages = haskellPackages: [
-      #     haskellPackages.xmonad-contrib
-      #     haskellPackages.xmonad-extras
-      #     haskellPackages.xmonad
-      #   ];
-      # };
+    # enable = true;
+    # windowManager.xmonad = {
+    #   enable = true;
+    #   enableContribAndExtras = true;
+    #   extraPackages = haskellPackages: [
+    #     haskellPackages.xmonad-contrib
+    #     haskellPackages.xmonad-extras
+    #     haskellPackages.xmonad
+    #   ];
+    # };
     # };
 
     #TODO: add comments describing each package
@@ -70,13 +69,14 @@ in
       jc
       jp
       jetbrains.webstorm
-      
+      nixpkgs-fmt
+
       tor-browser-bundle-bin
       kleopatra
       # monero-gui
 
       brave
-      
+
       ranger
       # wasabiwallet
     ] ++ (

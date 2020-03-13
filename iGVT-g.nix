@@ -13,7 +13,7 @@
     virtmanager
     virt-viewer
   ];
-  
+
   virtualisation.libvirtd.enable = true;
   users.users.qqii.extraGroups = [ "libvirtd" ];
 }
