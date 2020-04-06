@@ -40,7 +40,9 @@
 
   # TODO: figure out how this works and some numbers for it
   hardware.trackpoint.enable = true;
+  hardware.trackpoint.speed = 200;
   hardware.trackpoint.sensitivity = 200;
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -70,7 +72,7 @@
   services.monero.enable = true;
 
   # Enable touchpad support.
-  services.xserver.libinput.enable = true;
+  services.xserver.libinput.enable = false;
   services.xserver.libinput.naturalScrolling = true;
 
   # Enable Pantheon
