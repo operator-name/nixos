@@ -112,7 +112,7 @@ in
           # get bitwarden object and copy it to clipbard
           # a common use is bwclip password <website>
           function bwclip() {
-            bw get $1 $2 | xclip -selection clipboard
+            ${pkgs.bitwarden-cli}/bin/bw get $1 $2 | ${pkgs.xclip}/bin/xclip -selection clipboard
             # TODO: add feedback for if the vault is locked
           }
 
@@ -120,24 +120,25 @@ in
           # best when given a multiple of 2
           function superresolution() {
             # increase resolution
-            xrandr --output eDP-1 --scale "$1x$1"
+            ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale "$1x$1"
             # increase window scaling (integer)
-            gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <$1>}]"
-            gsettings set org.gnome.desktop.interface scaling-factor "$1"
+            ${pkgs.glib}/bin/gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <$1>}]"
+            ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface scaling-factor "$1"
             # increase mouse scaling
-            gsettings set org.gnome.desktop.interface cursor-size "$((24*$1*$1))"
+            ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size "$((24*$1*$1))"
           }
         '';
         shellAliases = {
           # unlock bitwarden and set session key
           # bash makes it so that trying to get the return variable of `bw unlock` non trivial so bw sync is ran to check the password is correct thus bwunlock cannot provide password feedback offline
-          bwunlock = "$(bw unlock | grep export | cut -c 3-) && bw sync";
+          bwunlock = "$(${pkgs.bitwarden-cli}/bin/bw unlock | grep export | cut -c 3-) && ${pkgs.bitwarden-cli}/bin/bw sync";
           # copy to clipboard, use -o to paste from clipboard
           xclipboard = "${pkgs.xclip}/bin/xclip -selection clipboard";
           # ls stuff
-          ls = "exa";
-          la = "exa --all";
-          ll = "exa --long";
+          ls = "${pkgs.exa}";
+          la = "${pkgs.exa}/bin/exa --all";
+          ll = "${pkgs.exa}/bin/exa --long";
+          cat = "${pkgs.bat}/bin/bat";
         };
       };
       bat = {

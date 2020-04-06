@@ -72,7 +72,7 @@
   services.monero.enable = true;
 
   # Enable touchpad support.
-  services.xserver.libinput.enable = false;
+  services.xserver.libinput.enable = true;
   services.xserver.libinput.naturalScrolling = true;
 
   # Enable Pantheon
