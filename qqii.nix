@@ -109,6 +109,10 @@ in
         historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
         # TODO: nixpkg for shell scripts to make sure dependaicies are availible
         initExtra = ''
+          #adds stuff to history, figure out how to do this using home-manager
+          #shopt -s histappend
+          #PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+
           # get bitwarden object and copy it to clipbard
           # a common use is bwclip password <website>
           function bwclip() {
@@ -135,7 +139,7 @@ in
           # copy to clipboard, use -o to paste from clipboard
           xclipboard = "${pkgs.xclip}/bin/xclip -selection clipboard";
           # ls stuff
-          ls = "${pkgs.exa}";
+          ls = "${pkgs.exa}/bin/exa";
           la = "${pkgs.exa}/bin/exa --all";
           ll = "${pkgs.exa}/bin/exa --long";
           cat = "${pkgs.bat}/bin/bat";
