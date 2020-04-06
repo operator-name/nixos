@@ -143,6 +143,7 @@ in
           la = "${pkgs.exa}/bin/exa --all";
           ll = "${pkgs.exa}/bin/exa --long";
           cat = "${pkgs.bat}/bin/bat";
+          mv = "${pkgs.coreutils}/bin/mv --no-clobber --verbose";
         };
       };
       bat = {
