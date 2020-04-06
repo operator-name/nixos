@@ -76,8 +76,13 @@
   services.xserver.libinput.naturalScrolling = true;
 
   # Enable Pantheon
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.pantheon.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.desktopManager.pantheon.enable = true;
+
+  # Enable Gnome
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = false;
+  services.xserver.desktopManager.gnome3.enable = true;
 
   # udev for android and adb
   programs.adb.enable = true;
@@ -98,3 +103,4 @@
   # should.
   system.stateVersion = "19.03"; # Did you read the comment?
 }
+
