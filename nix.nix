@@ -6,5 +6,5 @@
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.channel = "https://nixos.org/channels/nixos-unstable";
-  system.nixos.tags = [ "gnome-unstable" ];
+  system.nixos.tags = [ "pantheon-unstable" ];
 }

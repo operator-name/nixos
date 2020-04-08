@@ -80,6 +80,9 @@ in
       kleopatra
       # monero-gui
 
+      tmux
+      signal-desktop
+
       brave
 
       ranger
