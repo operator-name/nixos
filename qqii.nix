@@ -36,10 +36,10 @@ in
   # can be replaced with an export of $EDTIOR="vim"
   programs.vim.defaultEditor = true;
 
-  # # for steam
-  # hardware.opengl.driSupport32Bit = true;
-  # hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
-  # hardware.pulseaudio.support32Bit = true;
+  # for steam
+  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+  hardware.pulseaudio.support32Bit = true;
 
   home-manager.useUserPackages = true;
   home-manager.users.qqii = { pkgs, ... }: {
@@ -80,7 +80,6 @@ in
       kleopatra
       # monero-gui
 
-      tmux
       signal-desktop
 
       brave
@@ -92,11 +91,14 @@ in
         minecraft
         spotify
         google-chrome
-        # steam
+        steam
       ]
     );
 
     programs = {
+      tmux = {
+        enable = true;
+      };
       kakoune.enable = true;
       gpg.enable = true;
       chromium = {
