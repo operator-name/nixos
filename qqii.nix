@@ -85,6 +85,7 @@ in
       brave
 
       ranger
+      glances
       # wasabiwallet
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
