@@ -163,6 +163,7 @@ in
       man.enable = true;
       obs-studio.enable = true;
       alacritty.enable = true;
+      kitty.enable = true;
       vim.enable = true;
       firefox = {
         enable = true;
