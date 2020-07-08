@@ -87,6 +87,12 @@ in
       ranger
       glances
       # wasabiwallet
+
+      gnome3.gnome-disk-utility
+      smartmontools
+      baobab
+      ncdu
+      gparted
     ] ++ (
       with (import <nixos> { config.allowUnfree = true; }); [
         minecraft
