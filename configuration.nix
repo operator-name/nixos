@@ -23,9 +23,18 @@
       ./iGVT-g.nix
     ];
 
+
+  # Workaround for shutdown bug
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=10s
+  '';
+
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "operator-name"; # Define your hostname.
   networking.networkmanager.enable = true; # Enables wireless support via network-manager.
