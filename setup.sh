@@ -123,17 +123,13 @@ mount "$BOOT" /mnt/boot
 swapon "/dev/${LVM_VG_NAME}/${SWAP_NAME}"
 # swapoff "/dev/${LVM_VG_NAME}/${SWAP_NAME}"
 
+# --no-filesystems
 nixos-generate-config --root /mnt
 chown --recursive 7919 /mnt/etc/nixos
 
-# function mount-install() {
-#   local BOOT="$1"
-#   assumes luksOpen and vg called nixos-vg
-# 
-#   git clone https://github.com/operator-name/nixos.git /mnt/etc/nixos
-#   chown --recursive 7919 /mnt/etc/nixos
-# 
-#   nixos-generate-config --no-filesystems --root /mnt
-# 
-#   nixos-install --no-root-passwd
+# cp {hardware-,}configuration.nix /mnt/etc/nixos
+# nixos-install
+
+# function cleanup {
+# this function should unmount everything
 # }
