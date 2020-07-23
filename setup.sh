@@ -81,7 +81,6 @@ lvcreate --extents 100%FREE --name "${ROOT_NAME}" "${LVM_VG_NAME}"
 
 # Create partitions
 mkswap --label "${SWAP_NAME}" "--uuid=${SWAP_UUID}" "/dev/${LVM_VG_NAME}/${SWAP_NAME}"
-# swapoff "/dev/${LVM_VG_NAME}/${SWAP_NAME}"
 mkfs.btrfs --label "${ROOT_NAME}" "--uuid=${ROOT_UUID}" "/dev/${LVM_VG_NAME}/${ROOT_NAME}"
 
 printf "\n###############################################################################\n"
@@ -92,8 +91,6 @@ printf "\n######################################################################
 # Setup BTRFS
 
 mount -t btrfs "/dev/${LVM_VG_NAME}/${ROOT_NAME}" /mnt
-# umount /mnt
-
 btrfs subvolume create /mnt/root
 btrfs subvolume create /mnt/home
 btrfs subvolume create /mnt/nix
@@ -103,6 +100,8 @@ btrfs subvolume snapshot -r /mnt/root /mnt/root0
 umount /mnt
 
 mount -o subvol=root,compress=zstd,noatime "/dev/${LVM_VG_NAME}/${ROOT_NAME}" /mnt
+# umount /mnt
+
 mkdir /mnt/home
 mkdir /mnt/nix
 mkdir /mnt/persist
@@ -113,9 +112,16 @@ mount -o subvol=home,compress=zstd,noatime "/dev/${LVM_VG_NAME}/${ROOT_NAME}" /m
 mount -o subvol=nix,compress=zstd,noatime "/dev/${LVM_VG_NAME}/${ROOT_NAME}" /mnt/nix
 mount -o subvol=persist,compress=zstd,noatime "/dev/${LVM_VG_NAME}/${ROOT_NAME}" /mnt/persist
 mount -o subvol=log,compress=zstd,noatime "/dev/${LVM_VG_NAME}/${ROOT_NAME}" /mnt/var/log
+# umount /mnt/home
+# umount /mnt/nixos
+# umount /mnt/persist
+# umount /mnt/var/log
 
 mount "$BOOT" /mnt/boot
 # umount /mnt/boot
+
+swapon "/dev/${LVM_VG_NAME}/${SWAP_NAME}"
+# swapoff "/dev/${LVM_VG_NAME}/${SWAP_NAME}"
 
 nixos-generate-config --root /mnt
 chown --recursive 7919 /mnt/etc/nixos
