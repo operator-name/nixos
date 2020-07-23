@@ -1,0 +1,5 @@
+[user]
+	name = operator.name
+	email = operator.name@protonmail.com
+[core]
+	editor = vim
