@@ -127,7 +127,7 @@ swapon "/dev/${LVM_VG_NAME}/${SWAP_NAME}"
 nixos-generate-config --root /mnt
 chown --recursive 7919 /mnt/etc/nixos
 
-# cp {hardware-,}configuration.nix /mnt/etc/nixos
+# cp {hardware-,}configuration.nix /mnt/etc/nixos # TODO: move everything, including git
 # nixos-install --no-root-passwd
 
 # function cleanup {
