@@ -128,7 +128,7 @@ nixos-generate-config --root /mnt
 chown --recursive 7919 /mnt/etc/nixos
 
 # cp {hardware-,}configuration.nix /mnt/etc/nixos
-# nixos-install
+# nixos-install --no-root-passwd
 
 # function cleanup {
 # this function should unmount everything
