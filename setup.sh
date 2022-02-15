@@ -2,6 +2,8 @@
 
 ###############################################################################
 # Debug
+# https://nixos.wiki/wiki/ZFS
+# https://openzfs.github.io/openzfs-docs/Getting%20Started/NixOS/Root%20on%20ZFS/0-overview.html
 
 set -x
 

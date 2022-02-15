@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#
+# https://gist.github.com/mx00s/ea2462a3fe6fdaa65692fe7ee824de3e
 # NixOS install script synthesized from:
 #
 #   - Erase Your Darlings (https://grahamc.com/blog/erase-your-darlings)
@@ -16,6 +16,10 @@
 
 set -euo pipefail
 
+################################################################################
+
+#personal preferences, whilst I haven't got a custom ISO:
+EDITOR=vim # run this yourself
 setxkbmap gb
 
 ################################################################################
@@ -34,15 +38,15 @@ function info {
 
 ################################################################################
 
-export DISK=$1
-export AUTHORIZED_SSH_KEY=$2
+export DISK="${1:-nvme0n1}"
+export AUTHORIZED_SSH_KEY="${2:-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBFkYzaSyOAal16wAOTBU2RI1Tstb+A+XWAfi+m1n0p operator-name@protonmail.com}"
 
 if ! [[ -v DISK ]]; then
     err "Missing argument. Expected block device name, e.g. 'sda'"
     exit 1
 fi
 
-export DISK_PATH="/dev/${DISK}"
+export DISK_PATH="/dev/${DISK:-nvme0n1}"
 
 if ! [[ -b "$DISK_PATH" ]]; then
     err "Invalid argument: '${DISK_PATH}' is not a block special file"
@@ -59,7 +63,7 @@ if [[ "$EUID" > 0 ]]; then
     exit 1
 fi
 
-export ZFS_POOL="rpool"
+export ZFS_POOL="tank"
 
 # ephemeral datasets
 export ZFS_LOCAL="${ZFS_POOL}/local"
@@ -75,22 +79,28 @@ export ZFS_BLANK_SNAPSHOT="${ZFS_DS_ROOT}@blank"
 
 ################################################################################
 
-info "Running the UEFI (GPT) partitioning and formatting directions from the NixOS manual ..."
+info "Running the UEFI (GPT) partitioning and formatting ..."
 parted "$DISK_PATH" -- mklabel gpt
-parted "$DISK_PATH" -- mkpart primary 512MiB 100%
-parted "$DISK_PATH" -- mkpart ESP fat32 1MiB 512MiB
-parted "$DISK_PATH" -- set 2 boot on
-export DISK_PART_ROOT="${DISK_PATH}1"
-export DISK_PART_BOOT="${DISK_PATH}2"
+parted "$DISK_PATH" -- mkpart primary 1GiB 100%
+parted "$DISK_PATH" -- mkpart ESP fat32 1MiB 1GiB
+parted "$DISK_PATH" -- set 2 boot on # esp is an alias for boot
+export DISK_PART_ROOT="${DISK_PATH}p1"
+export DISK_PART_BOOT="${DISK_PATH}p2"
 
 info "Formatting boot partition ..."
 mkfs.fat -F 32 -n boot "$DISK_PART_BOOT"
 
 info "Creating '$ZFS_POOL' ZFS pool for '$DISK_PART_ROOT' ..."
-zpool create -f "$ZFS_POOL" "$DISK_PART_ROOT"
+zpool create \
+    -o ashift=12 \
+    -o autotrim=on \
+    -O relatime=on \
+    -O xattr=sa \
+    -O acltype=posixacl \
+    -f "$ZFS_POOL" "$DISK_PART_ROOT"
 
 info "Enabling compression for '$ZFS_POOL' ZFS pool ..."
-zfs set compression=on "$ZFS_POOL"
+zfs set compression=zstd "$ZFS_POOL"
 
 info "Creating '$ZFS_DS_ROOT' ZFS dataset ..."
 zfs create -p -o mountpoint=legacy "$ZFS_DS_ROOT"
@@ -200,7 +210,7 @@ cat <<EOF > /mnt/persist/etc/nixos/configuration.nix
 
   environment.systemPackages = with pkgs;
     [
-      emacs
+      vim
     ];
 
   services.zfs = {
